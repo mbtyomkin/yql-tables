@@ -97,6 +97,26 @@
 	}
 	return true;
     }
+    function getUris() {
+	// Get the Map and Home pages
+	var results = uriQuery.results;
+	elements = results.*.length();
+	if (elements == 0)
+	return false;
+	for each (var a in results.a){
+		//Remove trailing colon, and strip whitespace
+		var property = a.text().toString().slice(0, -1).replace(/\s+/g, "");
+		switch (property.toLowerCase()) {
+		default:
+			//Convert whitespace to single space
+			value = a.href;
+		break;
+		}
+		stock.appendChild(<{property}>{value}</{property}>);
+	}
+	return true;
+    }
+
 
     // Queue the queries
     var url = "http://finance.yahoo.com/q/pr?s="+symbol;
@@ -126,6 +146,13 @@
 	"//input[@maxlength=\"4\"]'",
 	{url:url});
 
+    var url = "http://finance.yahoo.com/q/pr?s="+symbol;
+    var uriQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='//td[@class=\"yfnc_modtitlew1\"]//a[.=\"Map\" or .=\"Home Page\"]' " +
+	"limit 2",
+	{url:url});
     var stock = <stock symbol={symbol}></stock>;
 
     getQuoteInfo();
