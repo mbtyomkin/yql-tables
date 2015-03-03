@@ -38,10 +38,10 @@
 	if (elements == 0)
 	    return false;
 
-	stock.CompanyName = results.h1.text().toString().trim();
-	var marketSymbolStr = results.div.span.toString();
+	stock.CompanyName = results.h2.text().toString().trim();
+	var marketSymbolStr = results.h2.text().toString().trim();
 	//var match = marketSymbolStr.match(/^[^:]+:\s+([^)]+)\)$/); matches stock symbol
-	var match = marketSymbolStr.match(/^\(([^:]+):/);
+	var match = marketSymbolStr.match(/([A-Za-z. -]+)\(/);
 	if (match != null) {
 	    stock.CompanyName += <Market>{match[1]}</Market>;
 	}
@@ -132,7 +132,7 @@
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//div[@id=\"yfi_investing_head\"]/h1 | " +
+	"//div[@class=\"yfi_rt_quote_summary\"]/div[1]//h2 | " +
 	"//div[@class=\"yfi_quote_summary\"]/div[1]'" ,
 	{url:url});
 
